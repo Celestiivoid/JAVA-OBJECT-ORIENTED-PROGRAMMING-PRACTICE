@@ -15,12 +15,17 @@ public class HotelMain {
             System.out.println("[4] Update Room");
             System.out.println("[5] Remove Room");
             System.out.println("[6] Reserve Room");
-            System.out.println("[7] Cancel Reservation");
-            System.out.println("[8] Check-In");
-            System.out.println("[9] Check-Out");
-            System.out.println("[10] View Reservations");
-            System.out.println("[11] Save Data");
-            System.out.println("[12] Load Data");
+            System.out.println("[7] Add Guest");
+            System.out.println("[8] Search Guest");
+            System.out.println("[9] Update Guest");
+            System.out.println("[10] View Guests");
+            System.out.println("[11] Reserve Room");
+            System.out.println("[12] Cancel Reservation");
+            System.out.println("[13] Check-In");
+            System.out.println("[14] Check-Out");
+            System.out.println("[15] View Reservations");
+            System.out.println("[16] Save Data");
+            System.out.println("[17] Load Data");
             System.out.println("[0] Exit");
 
             System.out.println("\nEnter option: ");
@@ -45,18 +50,23 @@ public class HotelMain {
                 case 4 -> service.updateRoom();
                 case 5 -> service.removeRoom();
                 case 6 -> service.reserveRoom();
-                case 7 -> service.cancelReservation();
-                case 8 -> service.checkIn();
-                case 9 -> service.checkOut();
-                case 10 -> service.viewReservations();
-                case 11 -> {
+                case 7 -> service.addGuest();
+                case 8 -> service.searchGuest();
+                case 9 -> service.updateGuest();
+                case 10 -> service.viewGuest();
+                case 11 -> service.reserveRoom();
+                case 12 -> service.cancelReservation();
+                case 13 -> service.checkIn();
+                case 14 -> service.checkOut();
+                case 15 -> service.viewReservations();
+                case 16 -> {
                     manager.saveGuest(HotelService.guest);
                     manager.saveRoom(HotelService.room);
                     manager.saveReservation(HotelService.guest,HotelService.room,HotelService.reservation);
                     System.out.println("Data saved successfully!");
                     return;
                 }
-                case 12 -> {
+                case 17 -> {
                     manager.loadGuest(HotelService.guest);
                     manager.loadRoom(HotelService.room);
                     manager.saveReservation(HotelService.guest,HotelService.room,HotelService.reservation);

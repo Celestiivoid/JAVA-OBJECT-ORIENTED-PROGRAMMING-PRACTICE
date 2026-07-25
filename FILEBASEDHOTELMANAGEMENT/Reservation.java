@@ -1,5 +1,27 @@
 package FILEBASEDHOTELMANAGEMENT;
 
 class Reservation {
-    
+    private Room room;
+    private Guest guest;
+    private int reservationID;
+    private int numberOfNights;
+    private double totalCost;
+    private String reservationStatus;
+
+    Reservation(Room rooms, Guest guest, int reservationID, String reservationStatus) {
+        this.room = rooms;
+        this.guest = guest;
+        this.reservationID = reservationID;
+        this.reservationStatus =reservationStatus;
+    }
+
+    void calculateTotal() {
+
+    }
+    void displayReservation() {
+
+    }
+    void displayReceipt() {
+        
+    }
 }

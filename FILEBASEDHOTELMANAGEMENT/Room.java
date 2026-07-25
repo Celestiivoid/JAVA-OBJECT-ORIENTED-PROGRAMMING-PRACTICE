@@ -7,17 +7,14 @@ class Room {
     private double pricePerNight;
     private String roomStatus;
 
-    Room(String roomNumber, String roomType, int capacity, double pricePerNight) {
+    Room(String roomNumber, String roomType, int capacity, double pricePerNight, String roomStatus) {
         this.roomNumber = roomNumber;
         this.roomType = roomType;
         this.capacity = capacity;
         this.pricePerNight = pricePerNight;
-        this.roomStatus = "Available";
+        this.roomStatus = roomStatus;
     }
-
-    void displayRoom() {
-
-    }
+    
     String setStatus() {
         if(roomStatus.equals("Available")) {
             return "Room " + roomNumber + " is already available.";

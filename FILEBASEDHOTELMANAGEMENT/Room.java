@@ -14,12 +14,9 @@ class Room {
         this.pricePerNight = pricePerNight;
         this.roomStatus = roomStatus;
     }
-    
-    String setStatus() {
-        if(roomStatus.equals("Available")) {
-            return "Room " + roomNumber + " is already available.";
-        }
-        return "Succesfully set room to " + roomStatus;
+
+    void setStatus(String roomStatus) {
+        this.roomStatus = roomStatus;
     }
     String getStatus() {
         return roomStatus;

@@ -8,10 +8,6 @@ class HotelService {
     static ArrayList<Guest> guest = new ArrayList<>();
     static ArrayList<Room> room = new ArrayList<>();
     static ArrayList<Reservation> reservation = new ArrayList<>();
-    private static final int GUEST_ID = random.nextInt(1000,9999);
-    private static final int UPD_GUEST_ID = random.nextInt(1000,9999);
-    private static final int RESERVATION_ID = random.nextInt(1000,9999);
-    private static String reservationStat = "Reserved";
 
     void addRoom() {
         while(true) {
@@ -100,20 +96,7 @@ class HotelService {
             System.out.println("Cannot set 0 or negative numbers.");
             }
 
-
-            System.out.println("\nRoom status: " 
-            + "\nAvailable" 
-            + "\nReserved" 
-            + "\nOccupied");
-            System.out.println("Enter room status: ");
-            String status  = scanner.nextLine();
-
-            if(!status.matches("(Available|Reserved|Occupied)")) {
-                System.out.println("Invalid room status.");
-                continue;
-            }
-
-            Room newRoom = new Room(roomNumber, roomType, capacity, price, status);
+            Room newRoom = new Room(roomNumber, roomType, capacity, price, "Available");
             room.add(newRoom);
             System.out.println("Successfully created room.");
             return;
@@ -181,6 +164,9 @@ class HotelService {
                 continue;
             }
             else {
+
+                Room selectedRoom = room.get(option - 1);
+
                 System.out.println("Enter room number: (DLX-XXX)");
                 String roomNumber = scanner.nextLine();
 
@@ -267,13 +253,12 @@ class HotelService {
                     continue;
                 }
 
-                /* for(int i = 0; i < room.size(); i++) {
-                    Room roomStatus = room.get(i);
-                  if(roomNumber.equals(roomStatus.getStatus()) && status.equals(roomStatus.getStatus())) {
-                        System.out.println("Room " + roomStatus.getRoomNumber() + " is already " + roomStatus.getStatus());
+                for(Room auth : room) {
+                    if(status.equals(auth.getStatus())) {
+                        System.out.println("Room " + selectedRoom.getRoomNumber() + " is already " + status + ".");
                         return;
                     }
-                } */ /*UM*/
+                }
 
                 Room updateRoom = new Room(roomNumber, roomType, capacity, price, status);
                 room.set(option - 1, updateRoom);
@@ -330,10 +315,11 @@ class HotelService {
                 System.out.println("Invalid contact number. (Must be 11 digits.)");
                 continue;
             }
-            Guest newGuest = new Guest(GUEST_ID, name, contactNumber);
+            int guestID = random.nextInt(1000,9999);
+            Guest newGuest = new Guest(guestID, name, contactNumber);
             guest.add(newGuest);
             System.out.println("Successfully added guest!");
-            System.out.println("Your ID: " + GUEST_ID);
+            System.out.println("Your ID: " + guestID);
             return;
         }
     }
@@ -405,10 +391,11 @@ class HotelService {
                     System.out.println("Invalid contact number. Must be 11 digits.");
                     continue;
                 }
-                Guest updateGuest = new Guest(UPD_GUEST_ID, newName, newContactNumber);
+                int updguestID = random.nextInt(1000,9999);
+                Guest updateGuest = new Guest(updguestID, newName, newContactNumber);
                 guest.set(option - 1, updateGuest);
                 System.out.println("Successfully updated guests' information.");
-                System.out.println("Your new updated ID: " + UPD_GUEST_ID);
+                System.out.println("Your new updated ID: " + updguestID);
                 return;
             }
         }
@@ -438,6 +425,7 @@ class HotelService {
             System.out.println("Select a room to reserve: ");
             int roomOpt;
 
+
             try {
                 roomOpt = Integer.parseInt(scanner.nextLine());
             } catch (NumberFormatException e) {
@@ -452,6 +440,14 @@ class HotelService {
 
             Room selectedRoom = room.get(roomOpt - 1);
 
+            for(Reservation reservations : reservation) {
+                if(reservations.getRoom() == selectedRoom
+                    && reservations.getReservationStatus().equals(reservations.getReservationStatus())) {
+                        System.out.println("Room " + selectedRoom.getRoomNumber() + " is already " + reservations.getReservationStatus() + ".");
+                        return;
+                }
+            }
+        
             if(guest.isEmpty()) {
                 viewGuest();
                 return;
@@ -469,27 +465,264 @@ class HotelService {
             }
 
             if(guestOpt < 1 || guestOpt > guest.size()) {
-                System.out.println("Numbers only!");
+                System.out.println("Out of range!");
                 continue;
             }
 
             Guest selectedGuest = guest.get(guestOpt - 1);
-            Reservation newReservation = new Reservation(selectedRoom, selectedGuest, guestOpt, reservationStat);
+            int reservationID = random.nextInt(1000,9999);
+            Reservation newReservation = new Reservation(selectedRoom, selectedGuest, reservationID, "Reserved");
             reservation.add(newReservation);
+            selectedRoom.setStatus("Reserved");
             System.out.println("Successfully reserved room " + selectedRoom.getRoomNumber());
+            System.out.println("Your reservation ID: " + reservationID);
             return;
         }
     }
-    void cancelReservation() {
 
+    void cancelReservation() {
+        while(true) {
+            boolean isFound = false;
+            Room isFoundR = null; 
+            Reservation isFoundRes = null;
+            System.out.println("=====CANCEL-RESERVATION=====");
+            System.out.println("Enter reservation ID: ");
+            int reservationID;
+
+            try {
+                reservationID = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Numbers only!");
+                continue;
+            }
+
+            if(reservationID < 1000 || reservationID > 9999) {
+                System.out.println("4 digits only.");
+                continue;
+            }
+
+            for(int i = 0; i < reservation.size() && i < room.size(); i++) {
+                Reservation ID = reservation.get(i);
+                if(reservationID == ID.getReservationID()) {
+                    isFound = true;
+                    isFoundR = ID.getRoom();
+                    isFoundRes = ID;
+                    System.out.println("Guest ID: "+ ID.getGuest().getGuestID() 
+                    + " | Guest name: " + ID.getGuest().getGuestName()
+                    + " | contact number: " + ID.getGuest().getContactNumber() 
+                    + " | Room number: " + ID.getRoom().getRoomNumber()
+                    + " | Room type: " + ID.getRoom().getRoomType()
+                    + " | Room capacity: " + ID.getRoom().getRoomCapacity()
+                    + " | Price per night: " + ID.getRoom().getPricePerNight());
+                }
+            }
+
+            if(!isFound || isFoundR == null) {
+                System.out.println("Room not found!");
+                return;
+            }
+
+            System.out.println("Cancel reservation? ");
+            System.out.println("[1] Yes");
+            System.out.println("[2] No");
+            System.out.println("Enter option: ");
+            int option;
+
+            try {
+                option = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Numbers only!");
+                continue;
+            }
+
+            if(option < 1 || option > 2) {
+                System.out.println("Out of range!");
+                continue;
+            }
+
+            switch(option) {
+                case 1 -> {
+                    isFoundR.setStatus("Available");
+                    isFoundRes.setReservationStatus("Cancelled");
+                    System.out.println("Successfully cancelled reservation for " + isFoundR.getRoomNumber());
+                    return;
+                }
+                case 2 -> {
+                    return;
+                }
+            }
+        }
     }
     void checkIn() {
+        while(true) {
+            boolean isFound = false;
+            Room isFoundR = null;
+            Reservation isFoundRes = null;
+            System.out.println("=====CHECK-IN-RESERVATION=====");
+            System.out.println("Enter reservation ID: ");
+            int reservationID;
 
+            try {
+                reservationID = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Numbers only!");
+                continue;
+            }
+
+            if(reservationID < 1000 || reservationID > 9999) {
+                System.out.println("Out of range!");
+                continue;
+            }
+
+            for(int i = 0; i < reservation.size() && i < room.size(); i++) {
+                Reservation ID = reservation.get(i);
+                if(reservationID == ID.getReservationID()) {
+                    isFound = true;
+                    isFoundR = ID.getRoom();
+                    isFoundRes = ID;
+                    System.out.println("Reservation found!");
+                    System.out.println("Guest ID: "+ ID.getGuest().getGuestID() 
+                    + " | Guest name: " + ID.getGuest().getGuestName()
+                    + " | contact number: " + ID.getGuest().getContactNumber() 
+                    + " | Room number: " + ID.getRoom().getRoomNumber()
+                    + " | Room type: " + ID.getRoom().getRoomType()
+                    + " | Room capacity: " + ID.getRoom().getRoomCapacity()
+                    + " | Price per night: " + ID.getRoom().getPricePerNight());
+                }
+            }
+
+            if(!isFound) {
+                System.out.println("Room not found!");
+                return;
+            }
+            System.out.println("Check in reservation? ");
+            System.out.println("[1] Yes");
+            System.out.println("[2] No");
+            System.out.println("Enter option: ");
+            int option;
+
+            try {
+                option = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Numbers only!");
+                continue;
+            }
+
+            if(option < 1 || option > 2) {
+                System.out.println("Out of range!");
+                continue;
+            }
+
+            switch(option) {
+                case 1 -> {
+                    isFoundR.setStatus("Checked-in");
+                    isFoundRes.setReservationStatus("Checked-in");
+                    System.out.println("Successfully checked in " + isFoundR.getRoomNumber());
+                    return;
+                }
+                case 2 -> {
+                    return;
+                }
+            }
+        }
     }
     void checkOut() {
+        while(true) {
+            boolean isFound = false;
+            Room isFoundR = null;
+            Reservation isFoundRes = null;
+            System.out.println("=====CHECK-OUT=====");
+            System.out.println("Enter reservation ID: ");
+            int reservationID;
 
+            try {
+                reservationID = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Numbers only!");
+                continue;
+            }
+
+            if(reservationID < 1000 || reservationID > 9999) {
+                System.out.println("Invalid reservation ID.");
+                continue;
+            }
+            
+
+            for(int i = 0; i < reservation.size() && i < room.size(); i++) {
+                Reservation ID = reservation.get(i);
+                if(reservationID == ID.getReservationID()) {
+                    isFound = true;
+                    isFoundR = ID.getRoom();
+                    isFoundRes = ID;
+                    System.out.println("Reservation found!");
+                    System.out.println("Guest ID: "+ ID.getGuest().getGuestID() 
+                    + " | Guest name: " + ID.getGuest().getGuestName()
+                    + " | contact number: " + ID.getGuest().getContactNumber() 
+                    + " | Room number: " + ID.getRoom().getRoomNumber()
+                    + " | Room type: " + ID.getRoom().getRoomType()
+                    + " | Room capacity: " + ID.getRoom().getRoomCapacity()
+                    + " | Price per night: " + ID.getRoom().getPricePerNight());
+                }
+            }
+
+            if(!isFound) {
+                System.out.println("Room not found!");
+                return;
+            }
+            System.out.println("Check in reservation? ");
+            System.out.println("[1] Yes");
+            System.out.println("[2] No");
+            System.out.println("Enter option: ");
+            int option;
+
+            try {
+                option = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Numbers only!");
+                continue;
+            }
+
+            if(option < 1 || option > 2) {
+                System.out.println("Out of range!");
+                continue;
+            }
+
+            if(!isFoundRes.getReservationStatus().equals("Checked-in")) {
+                System.out.println("Room " + isFoundRes.getRoom().getRoomNumber() + " is not yet checked-in.");
+                return;
+            }
+
+            switch(option) {
+                case 1 -> {
+                    isFoundR.setStatus("Available");
+                    isFoundRes.setReservationStatus("Checked-out");
+                    System.out.println("Successfuly checked out.");
+                    return;
+                }
+                case 2 -> {
+                    return;
+                }
+            }
+        }
     }
-    void viewReservations() {
 
+    void viewReservations() {
+        System.out.println("=====HOTEL-RESERVATION-HISTORY=====");
+        if(reservation.isEmpty()) {
+            System.out.println("No reservations at the moment.");
+            return;
+        }
+
+        for(int i = 0; i < reservation.size(); i++) {
+            Reservation display = reservation.get(i);
+            System.out.println("Guest ID: "+ display.getGuest().getGuestID() 
+            + " | Guest name: " + display.getGuest().getGuestName()
+            + " | contact number: " + display.getGuest().getContactNumber() 
+            + " | Room number: " + display.getRoom().getRoomNumber()
+            + " | Room type: " + display.getRoom().getRoomType()
+            + " | Room capacity: " + display.getRoom().getRoomCapacity()
+            + " | Price per night: " + display.getRoom().getPricePerNight()
+            + " | Status: " + display.getReservationStatus());
+        }
     }
 }

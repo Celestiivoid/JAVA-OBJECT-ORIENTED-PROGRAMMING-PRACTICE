@@ -38,7 +38,7 @@ public class HotelMain {
                 continue;
             }
 
-            if(option < 1 || option > 12) {
+            if(option < 1 || option > 16) {
                 System.out.println("Out of range.");
                 continue;
             }

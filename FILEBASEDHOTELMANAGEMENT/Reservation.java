@@ -12,7 +12,7 @@ class Reservation {
         this.room = rooms;
         this.guest = guest;
         this.reservationID = reservationID;
-        this.reservationStatus =reservationStatus;
+        this.reservationStatus = reservationStatus;
     }
 
     void calculateTotal() {
@@ -23,5 +23,22 @@ class Reservation {
     }
     void displayReceipt() {
         
+    }
+
+    String getReservationStatus() {
+        return reservationStatus;
+    }
+
+    void setReservationStatus(String reservationStatus) {
+        this.reservationStatus = reservationStatus;
+    }
+    int getReservationID() {
+        return reservationID;
+    }
+    Room getRoom() {
+        return room;
+    }
+    Guest getGuest() {
+        return guest;
     }
 }

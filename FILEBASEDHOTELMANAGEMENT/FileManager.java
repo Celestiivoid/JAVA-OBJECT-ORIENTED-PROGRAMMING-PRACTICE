@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 class FileManager {
 
     void saveGuest(ArrayList<Guest> guest) throws IOException{
+        BufferedWriter save = new BufferedWriter(new FileWriter("Guest.csv"));
 
     }
     void loadGuest(ArrayList<Guest> guest) throws IOException{

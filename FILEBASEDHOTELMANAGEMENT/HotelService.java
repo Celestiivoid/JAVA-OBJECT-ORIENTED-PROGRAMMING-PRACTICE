@@ -469,9 +469,24 @@ class HotelService {
                 continue;
             }
 
+            System.out.println("Enter number of nights: ");
+            int nOfNights;
+
+            try {
+                nOfNights = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Numbers only!");
+                continue;
+            }
+
+            if(nOfNights <= 0) {
+                System.out.println("Cannot validate 0 or negative numbers.");
+                continue;
+            }
             Guest selectedGuest = guest.get(guestOpt - 1);
             int reservationID = random.nextInt(1000,9999);
-            Reservation newReservation = new Reservation(selectedRoom, selectedGuest, reservationID, "Reserved");
+            Reservation newReservation = new Reservation(selectedRoom, selectedGuest, reservationID, "Reserved", nOfNights);
+            newReservation.calculateTotal();
             reservation.add(newReservation);
             selectedRoom.setStatus("Reserved");
             System.out.println("Successfully reserved room " + selectedRoom.getRoomNumber());
@@ -513,6 +528,7 @@ class HotelService {
                     + " | Room number: " + ID.getRoom().getRoomNumber()
                     + " | Room type: " + ID.getRoom().getRoomType()
                     + " | Room capacity: " + ID.getRoom().getRoomCapacity()
+                    + " | Number of nights: " + ID.getNumberOfNights()
                     + " | Price per night: " + ID.getRoom().getPricePerNight());
                 }
             }
@@ -587,7 +603,8 @@ class HotelService {
                     + " | Room number: " + ID.getRoom().getRoomNumber()
                     + " | Room type: " + ID.getRoom().getRoomType()
                     + " | Room capacity: " + ID.getRoom().getRoomCapacity()
-                    + " | Price per night: " + ID.getRoom().getPricePerNight());
+                    + " | Price per night: " + ID.getRoom().getPricePerNight()
+                    + " | Total cost: " + ID.getTotalCost());
                 }
             }
 

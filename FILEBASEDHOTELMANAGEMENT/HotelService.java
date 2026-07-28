@@ -603,8 +603,7 @@ class HotelService {
                     + " | Room number: " + ID.getRoom().getRoomNumber()
                     + " | Room type: " + ID.getRoom().getRoomType()
                     + " | Room capacity: " + ID.getRoom().getRoomCapacity()
-                    + " | Price per night: " + ID.getRoom().getPricePerNight()
-                    + " | Total cost: " + ID.getTotalCost());
+                    + " | Price per night: " + ID.getRoom().getPricePerNight());
                 }
             }
 
@@ -672,13 +671,10 @@ class HotelService {
                     isFoundR = ID.getRoom();
                     isFoundRes = ID;
                     System.out.println("Reservation found!");
-                    System.out.println("Guest ID: "+ ID.getGuest().getGuestID() 
-                    + " | Guest name: " + ID.getGuest().getGuestName()
-                    + " | contact number: " + ID.getGuest().getContactNumber() 
+                    System.out.println(" | Guest name: " + ID.getGuest().getGuestName()
                     + " | Room number: " + ID.getRoom().getRoomNumber()
-                    + " | Room type: " + ID.getRoom().getRoomType()
-                    + " | Room capacity: " + ID.getRoom().getRoomCapacity()
-                    + " | Price per night: " + ID.getRoom().getPricePerNight());
+                    + " | Price per night: " + ID.getRoom().getPricePerNight()
+                    + " | Total cost: " + ID.getTotalCost());
                 }
             }
 
@@ -686,7 +682,22 @@ class HotelService {
                 System.out.println("Room not found!");
                 return;
             }
-            System.out.println("Check in reservation? ");
+            System.out.println("Enter cash amount: ");
+            double cash;
+
+            try {
+                cash = Double.parseDouble(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Numbers only!");
+                continue;
+            }
+
+            if(cash <= 0.0) {
+                System.out.println("Cannot validate 0 or negative numbers.");
+                continue;
+            }
+
+            System.out.println("Check out reservation? ");
             System.out.println("[1] Yes");
             System.out.println("[2] No");
             System.out.println("Enter option: ");
@@ -713,7 +724,23 @@ class HotelService {
                 case 1 -> {
                     isFoundR.setStatus("Available");
                     isFoundRes.setReservationStatus("Checked-out");
-                    System.out.println("Successfuly checked out.");
+                    isFoundRes.calculateChange(cash);
+                    System.out.println("===============RECEIPT===============" 
+                    + "\n | Guest ID: " + isFoundRes.getGuest().getGuestID()
+                    + "\n Reservation ID: " + isFoundRes.getReservationID()
+                    + "\n | Guest name: " + isFoundRes.getGuest().getGuestName()
+                    + "\n | Contact number: " + isFoundRes.getGuest().getContactNumber()
+                    + "\n | Room number: " + isFoundR.getRoomNumber()
+                    + "\n | Room type: " + isFoundR.getRoomType()
+                    + "\n | Room capacity: " + isFoundR.getRoomCapacity()
+                    + "\n | Price per night: " + isFoundR.getPricePerNight()
+                    + "\n | Number of night: " + isFoundRes.getNumberOfNights()
+                    + "\n====================================="
+                    + " |\n Total cost: " + isFoundRes.getTotalCost()
+                    + " |\n Change: " + isFoundRes.getChange()
+                    + "\n====================================="
+                    + "\nThanks for choosing Deluxe Hotel!"
+                    + "\n  Deluxe Hotel corporation 2026 ");
                     return;
                 }
                 case 2 -> {

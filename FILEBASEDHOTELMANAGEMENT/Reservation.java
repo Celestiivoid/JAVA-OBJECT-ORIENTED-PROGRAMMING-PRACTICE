@@ -7,6 +7,7 @@ class Reservation {
     private int numberOfNights;
     private double totalCost;
     private String reservationStatus;
+    private double change;
 
     Reservation(Room rooms, Guest guest, int reservationID, String reservationStatus, int numberOfNights) {
         this.room = rooms;
@@ -19,6 +20,10 @@ class Reservation {
     void calculateTotal() {
         totalCost = numberOfNights * room.getPricePerNight();
     }
+
+    void calculateChange(double cash) {
+        change = cash - totalCost;
+    }
     void displayReservation() {
 
     }
@@ -30,6 +35,9 @@ class Reservation {
         return reservationStatus;
     }
 
+    double getChange() {
+        return change;
+    }
     int getNumberOfNights() {
         return numberOfNights;
     }

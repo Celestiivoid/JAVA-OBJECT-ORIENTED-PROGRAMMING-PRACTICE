@@ -62,13 +62,13 @@ public class HotelMain {
                 case 16 -> {
                     manager.saveGuest(HotelService.guest);
                     manager.saveRoom(HotelService.room);
-                    manager.saveReservation(HotelService.guest,HotelService.room,HotelService.reservation);
+                    manager.saveReservation(HotelService.reservation);
                     System.out.println("Data saved successfully!");
                 }
                 case 17 -> {
                     manager.loadGuest(HotelService.guest);
                     manager.loadRoom(HotelService.room);
-                    manager.saveReservation(HotelService.guest,HotelService.room,HotelService.reservation);
+                    manager.loadReservation(HotelService.guest, HotelService.reservation);
                     System.out.println("Data loaded successfully!");
                 }
             }

@@ -13,6 +13,7 @@ class FileManager {
             save.write(guests.getGuestID() 
             + "," + guests.getGuestName()
             + ", " + guests.getContactNumber());
+            save.newLine();
         }
         save.close();
 
@@ -40,6 +41,7 @@ class FileManager {
             + "," + room.getRoomCapacity()
             + "," + room.getPricePerNight()
             + "," + room.getStatus());
+            save.newLine();
         }
         save.close();
     }
@@ -58,10 +60,50 @@ class FileManager {
         }
         load.close();
     }
-    void saveReservation(ArrayList<Guest> guest, ArrayList<Room> rooms, ArrayList<Reservation> reservations) throws IOException {
+    void saveReservation(ArrayList<Reservation> reservations) throws IOException {
+        BufferedWriter save = new BufferedWriter(new FileWriter("Reservation.csv"));
 
+        for(Reservation reservation : reservations) {
+            save.write(reservation.getGuestID()
+            + "," + reservation.getReservationID()
+            + "," + reservation.getGuestName()
+            + "," + reservation.getContactNumber()
+            + "," + reservation.getRoomNumber()
+            + "," + reservation.getRoomType()
+            + "," + reservation.getCapacity()
+            + "," + reservation.getReservationStatus()
+            + "," + reservation.getPricePerNight()
+            + "," + reservation.getNumberOfNights()
+            + "," + reservation.getTotalCost()
+            + "," + reservation.getChange()
+            );
+            save.newLine();
+        }
+        save.close();
     }
-    void loadReservation(ArrayList<Guest> guest, ArrayList<Room> rooms, ArrayList<Reservation> reservations) throws IOException {
+    void loadReservation(ArrayList<Guest> guest, ArrayList<Reservation> reservations) throws IOException {
+        BufferedReader load = new BufferedReader(new FileReader("Reservation.csv"));
+        String line;
 
+        while((line = load.readLine()) != null) {
+            String [] reservationData = line.split(",");
+            int guestID = Integer.parseInt(reservationData[0]);
+            int reservationID = Integer.parseInt(reservationData[1]);
+            String guestName = reservationData[2];
+            String contactNumber = reservationData[3];
+            String roomNumber = reservationData[4];
+            String roomType = reservationData[5];
+            int capacity = Integer.parseInt(reservationData[6]);
+            String reservationStatus = reservationData[7];
+            Double pricePerNight = Double.parseDouble(reservationData[8]);
+            int numberOfNights = Integer.parseInt(reservationData[9]);
+            Double totalCost = Double.parseDouble(reservationData[10]);
+            Double change = Double.parseDouble(reservationData[11]);
+
+            for(Guest guests : guest) {
+                if(guestID == guests.getGuestID()) {
+                }
+            }
+        }
     }
 }

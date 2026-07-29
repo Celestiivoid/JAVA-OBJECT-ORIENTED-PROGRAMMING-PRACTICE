@@ -1,6 +1,7 @@
 package FILEBASEDHOTELMANAGEMENT;
-
+import java.util.ArrayList;
 class Reservation {
+    private ArrayList<Reservation> reservations = new ArrayList<>();
     private Room room;
     private Guest guest;
     private int reservationID;
@@ -17,6 +18,7 @@ class Reservation {
         this.numberOfNights = numberOfNights;
     }
 
+
     void calculateTotal() {
         totalCost = numberOfNights * room.getPricePerNight();
     }
@@ -27,11 +29,36 @@ class Reservation {
         }
         return change = cash - totalCost;
     }
-    void displayReservation() {
 
+
+    /*Getters*/
+
+    String getGuestName() {
+        return guest.getGuestName();
     }
-    void displayReceipt() {
-        
+
+    String getGuestID() {
+        return guest.getGuestName();
+    }
+
+    String getContactNumber() {
+        return guest.getContactNumber();
+    }
+
+    String getRoomNumber() {
+        return room.getRoomNumber();
+    }
+
+    String getRoomType() {
+        return room.getRoomType();
+    }
+
+    Double getPricePerNight() {
+        return room.getPricePerNight();
+    }
+
+    int getCapacity() {
+        return room.getRoomCapacity();
     }
 
     String getReservationStatus() {
@@ -58,5 +85,9 @@ class Reservation {
     }
     Guest getGuest() {
         return guest;
+    }
+
+    ArrayList<Reservation> getReservations() {
+        return reservations;
     }
 }

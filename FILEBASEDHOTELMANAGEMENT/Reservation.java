@@ -21,8 +21,11 @@ class Reservation {
         totalCost = numberOfNights * room.getPricePerNight();
     }
 
-    void calculateChange(double cash) {
-        change = cash - totalCost;
+    double calculateChange(double cash) {
+        if(totalCost > cash) {
+            System.out.println("Insufficient amount.");
+        }
+        return change = cash - totalCost;
     }
     void displayReservation() {
 

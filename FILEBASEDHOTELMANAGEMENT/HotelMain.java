@@ -38,7 +38,7 @@ public class HotelMain {
                 continue;
             }
 
-            if(option < 1 || option > 16) {
+            if(option < 1 || option > 17) {
                 System.out.println("Out of range.");
                 continue;
             }
@@ -64,14 +64,12 @@ public class HotelMain {
                     manager.saveRoom(HotelService.room);
                     manager.saveReservation(HotelService.guest,HotelService.room,HotelService.reservation);
                     System.out.println("Data saved successfully!");
-                    return;
                 }
                 case 17 -> {
                     manager.loadGuest(HotelService.guest);
                     manager.loadRoom(HotelService.room);
                     manager.saveReservation(HotelService.guest,HotelService.room,HotelService.reservation);
                     System.out.println("Data loaded successfully!");
-                    return;
                 }
             }
         }

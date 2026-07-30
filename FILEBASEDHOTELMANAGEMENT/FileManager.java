@@ -12,7 +12,7 @@ class FileManager {
         for(Guest guests : guest) {
             save.write(guests.getGuestID() 
             + "," + guests.getGuestName()
-            + ", " + guests.getContactNumber());
+            + "," + guests.getContactNumber());
             save.newLine();
         }
         save.close();
@@ -99,11 +99,32 @@ class FileManager {
             int numberOfNights = Integer.parseInt(reservationData[9]);
             Double totalCost = Double.parseDouble(reservationData[10]);
             Double change = Double.parseDouble(reservationData[11]);
+            Guest targetGuest = null;
 
             for(Guest guests : guest) {
-                if(guestID == guests.getGuestID()) {
+                if(guests.getGuestID() == guestID) {
+                    targetGuest = guests;
+                    break;
                 }
             }
+
+            if(targetGuest != null) {
+                Reservation loadingReservation = new Reservation(targetGuest,
+                    reservationID,
+                    guestName,
+                    contactNumber, 
+                    roomNumber, 
+                    roomType, 
+                    capacity, 
+                    reservationStatus, 
+                    pricePerNight, 
+                    numberOfNights, 
+                    totalCost, 
+                    change);
+            
+            reservations.add(loadingReservation);
+            }
         }
+        load.close();
     }
 }

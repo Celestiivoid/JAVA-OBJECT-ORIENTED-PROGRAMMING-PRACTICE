@@ -592,18 +592,19 @@ class HotelService {
 
             for(int i = 0; i < reservation.size() && i < room.size(); i++) {
                 Reservation ID = reservation.get(i);
+                Room rooms = room.get(i);
                 if(reservationID == ID.getReservationID()) {
                     isFound = true;
-                    isFoundR = ID.getRoom();
+                    isFoundR = rooms;
                     isFoundRes = ID;
                     System.out.println("Reservation found!");
-                    System.out.println("Guest ID: "+ ID.getGuest().getGuestID() 
-                    + " | Guest name: " + ID.getGuest().getGuestName()
-                    + " | contact number: " + ID.getGuest().getContactNumber() 
-                    + " | Room number: " + ID.getRoom().getRoomNumber()
-                    + " | Room type: " + ID.getRoom().getRoomType()
-                    + " | Room capacity: " + ID.getRoom().getRoomCapacity()
-                    + " | Price per night: " + ID.getRoom().getPricePerNight());
+                    System.out.println("Guest ID: "+ ID.getGuestID() 
+                    + " | Guest name: " + ID.getGuestName()
+                    + " | contact number: " + ID.getContactNumber() 
+                    + " | Room number: " + ID.getRoomNumber()
+                    + " | Room type: " + ID.getRoomType()
+                    + " | Room capacity: " + ID.getCapacity()
+                    + " | Price per night: " + ID.getPricePerNight());
                 }
             }
 
@@ -631,6 +632,12 @@ class HotelService {
 
             switch(option) {
                 case 1 -> {
+                    if(isFoundR.getStatus().equals("Checked-in") 
+                        && isFoundRes.getReservationStatus().equals("Checked-in")) {
+                        System.out.println("This reservation has already been checked-in.");
+                        return;
+                    }
+
                     isFoundR.setStatus("Checked-in");
                     isFoundRes.setReservationStatus("Checked-in");
                     System.out.println("Successfully checked in " + isFoundR.getRoomNumber());
@@ -666,14 +673,15 @@ class HotelService {
 
             for(int i = 0; i < reservation.size() && i < room.size(); i++) {
                 Reservation ID = reservation.get(i);
+                Room rooms = room.get(i);
                 if(reservationID == ID.getReservationID()) {
                     isFound = true;
-                    isFoundR = ID.getRoom();
+                    isFoundR = rooms;
                     isFoundRes = ID;
                     System.out.println("Reservation found!");
-                    System.out.println(" | Guest name: " + ID.getGuest().getGuestName()
-                    + " | Room number: " + ID.getRoom().getRoomNumber()
-                    + " | Price per night: " + ID.getRoom().getPricePerNight()
+                    System.out.println(" | Guest name: " + ID.getGuestName()
+                    + " | Room number: " + ID.getRoomNumber()
+                    + " | Price per night: " + ID.getPricePerNight()
                     + " | Total cost: " + ID.getTotalCost());
                 }
             }
@@ -716,20 +724,19 @@ class HotelService {
             }
 
             if(!isFoundRes.getReservationStatus().equals("Checked-in")) {
-                System.out.println("Room " + isFoundRes.getRoom().getRoomNumber() + " is not yet checked-in.");
+                System.out.println("Room " + isFoundRes.getRoomNumber() + " is not yet checked-in.");
                 return;
             }
-
             switch(option) {
                 case 1 -> {
                     isFoundR.setStatus("Available");
                     isFoundRes.setReservationStatus("Checked-out");
                     isFoundRes.calculateChange(cash);
                     System.out.println("===============RECEIPT===============" 
-                    + "\n | Guest ID: " + isFoundRes.getGuest().getGuestID()
+                    + "\n | Guest ID: " + isFoundRes.getGuestID()
                     + "\n Reservation ID: " + isFoundRes.getReservationID()
-                    + "\n | Guest name: " + isFoundRes.getGuest().getGuestName()
-                    + "\n | Contact number: " + isFoundRes.getGuest().getContactNumber()
+                    + "\n | Guest name: " + isFoundRes.getGuestName()
+                    + "\n | Contact number: " + isFoundRes.getContactNumber()
                     + "\n | Room number: " + isFoundR.getRoomNumber()
                     + "\n | Room type: " + isFoundR.getRoomType()
                     + "\n | Room capacity: " + isFoundR.getRoomCapacity()
@@ -759,13 +766,13 @@ class HotelService {
 
         for(int i = 0; i < reservation.size(); i++) {
             Reservation display = reservation.get(i);
-            System.out.println("Guest ID: "+ display.getGuest().getGuestID() 
-            + " | Guest name: " + display.getGuest().getGuestName()
-            + " | contact number: " + display.getGuest().getContactNumber() 
-            + " | Room number: " + display.getRoom().getRoomNumber()
-            + " | Room type: " + display.getRoom().getRoomType()
-            + " | Room capacity: " + display.getRoom().getRoomCapacity()
-            + " | Price per night: " + display.getRoom().getPricePerNight()
+            System.out.println("Guest ID: "+ display.getGuestID() 
+            + " | Guest name: " + display.getGuestName()
+            + " | contact number: " + display.getContactNumber() 
+            + " | Room number: " + display.getRoomNumber()
+            + " | Room type: " + display.getRoomType()
+            + " | Room capacity: " + display.getCapacity()
+            + " | Price per night: " + display.getPricePerNight()
             + " | Status: " + display.getReservationStatus());
         }
     }

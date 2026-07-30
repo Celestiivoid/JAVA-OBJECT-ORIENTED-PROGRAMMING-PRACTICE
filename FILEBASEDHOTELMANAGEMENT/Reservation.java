@@ -9,13 +9,52 @@ class Reservation {
     private double totalCost;
     private String reservationStatus;
     private double change;
+    private int guestID;
+    private String guestName;
+    private String contactNumber;
+    private String roomNumber;
+    private String roomType;
+    private int capacity;
+    private double pricePerNight;
 
-    Reservation(Room rooms, Guest guest, int reservationID, String reservationStatus, int numberOfNights) {
+    Reservation(Room rooms,
+        Guest guest,
+        int reservationID,
+        String reservationStatus, 
+        int numberOfNights) {
+
         this.room = rooms;
         this.guest = guest;
         this.reservationID = reservationID;
         this.reservationStatus = reservationStatus;
         this.numberOfNights = numberOfNights;
+    }
+
+    Reservation(Guest guest,
+        int reservationID, 
+        String guestName, 
+        String contactNumber,
+        String roomNumber,
+        String roomType,
+        int capacity,
+        String reservationStatus,
+        Double pricePerNight,
+        int numberOfNights,
+        Double totalCost,
+        Double change
+        ) {
+        this.guest = guest;
+        this.reservationID = reservationID;
+        this.guestName = guestName;
+        this.contactNumber = contactNumber;
+        this.roomNumber = roomNumber;
+        this.roomType = roomType;
+        this.capacity = capacity;
+        this.reservationStatus = reservationStatus;
+        this.pricePerNight = pricePerNight;
+        this.numberOfNights = numberOfNights;
+        this.totalCost = totalCost;
+        this.change = change;
     }
 
 
@@ -33,36 +72,35 @@ class Reservation {
 
     /*Getters*/
 
-    String getGuestName() {
-        return guest.getGuestName();
+    int getGuestID() {
+        return guestID;
     }
 
-    String getGuestID() {
-        return guest.getGuestName();
+    String getGuestName() {
+        return guestName;
     }
 
     String getContactNumber() {
-        return guest.getContactNumber();
-    }
-
-    String getRoomNumber() {
-        return room.getRoomNumber();
-    }
-
-    String getRoomType() {
-        return room.getRoomType();
-    }
-
-    Double getPricePerNight() {
-        return room.getPricePerNight();
-    }
-
-    int getCapacity() {
-        return room.getRoomCapacity();
+        return contactNumber;
     }
 
     String getReservationStatus() {
         return reservationStatus;
+    }
+    String getRoomNumber() {
+        return roomNumber;
+    }
+
+    String getRoomType() {
+        return roomType;
+    }
+    
+    int getCapacity() {
+        return capacity;
+    }
+
+    double getPricePerNight() {
+        return pricePerNight;
     }
 
     double getChange() {

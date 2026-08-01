@@ -193,19 +193,183 @@ class SchoolService {
 
     /*===TEACHER===*/
     void addTeacher() {
+        while(true) {
+            System.out.println("=====ADD-TEACHER=====");
+            System.out.println("Enter teacher name: ");
+            String teacherName = scanner.nextLine();
 
+            if(teacherName.isEmpty()) {
+                System.out.println("Name field cannot be empty.");
+                continue;
+            }
+
+            for(int i = 0; i < teacher.size(); i++) {
+                Teacher auth = teacher.get(i);
+                if(teacherName.equals(auth.getTeacherName())) {
+                    System.out.println("Teachers' name already exist.");
+                    return;
+                }
+            }
+
+            System.out.println("Enter teachers' age: ");
+            int teacherAge;
+
+            try {
+                teacherAge = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Numbers only!");
+                continue;
+            }
+
+            if(teacherAge <= 0) {
+                System.out.println("Cannot validate 0 or negative numbers for age field.");
+                continue;
+            }
+
+            int teacherID = random.nextInt(1000,9999);
+            Teacher newTeacher = new Teacher(teacherID, teacherName, teacherAge);
+            teacher.add(newTeacher);
+            System.out.println("Successfully added new teacher.");
+            System.out.println("Teachers' ID: " + teacherID);
+            return;
+        }
     }
     void viewTeachers() {
+        if(teacher.isEmpty()) {
+            System.out.println("No teacher available.");
+            return;
+        }
 
+        for(int i = 0; i < teacher.size(); i++) {
+            Teacher view = teacher.get(i);
+            System.out.println((i + 1) + ".) " 
+            + "Teachers' ID: " + view.getTeacherID()
+            + " | Teachers' name: " + view.getTeacherName()
+            + " | Teachers' age: " + view.getTeacherAge());
+        }
     }
     void searchTeacher() {
+        while(true) {
+            boolean isFound = false;
+            System.out.println("=====SEARCH-TEACHER=====");
+            System.out.println("Enter teacher ID: ");
+            int teacherID;
 
+            try {
+                teacherID = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Numbers only!");
+                continue;
+            }
+
+            if(teacherID < 1000 || teacherID > 9999) {
+                System.out.println("4 digits only!");
+                continue;
+            }
+
+            for(int i = 0; i < teacher.size(); i++) {
+                Teacher search = teacher.get(i);
+                if(teacherID == search.getTeacherID()) {
+                    isFound = true;
+                    System.out.println("Teacher found!");
+                    System.out.println("Teachers' ID: " + search.getTeacherID() + " | Teachers' name: " + search.getTeacherName());
+                    return;
+                }
+            }
+
+            if(!isFound) {
+                System.out.println("Teacher not found!");
+                return;
+            }
+        }
     }
     void updateTeacher() {
+        while(true) {
+            System.out.println("=====UPDATE-TEACHER=====");
+            if(teacher.isEmpty()) {
+                System.out.println("No teacher available to update.");
+                return;
+            }
 
+            viewTeachers();
+            System.out.println("Pick a teacher to update: ");
+            int option;
+
+            try {
+                option = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Numbers only!");
+                continue;
+            }
+
+            if(option < 1 || option > teacher.size()) {
+                System.out.println("Out of range!");
+                continue;
+            }
+            else {
+                Teacher selectedTeacher = teacher.get(option - 1);
+                System.out.println("Enter new teachers' name: ");
+                String newName = scanner.nextLine();
+
+                if(newName.isEmpty()) {
+                    System.out.println("Name field cannot be empty.");
+                    continue;
+                }
+
+                System.out.println("Enter new teachers' age: ");
+                int newAge;
+
+                try {
+                    newAge = Integer.parseInt(scanner.nextLine());
+                } catch (NumberFormatException e) {
+                    System.out.println("Numbers only!");
+                    continue;
+                }
+
+                if(newAge <= 0) {
+                    System.out.println("Cannot validate 0 or negative numbers for age field.");
+                    continue;
+                }
+
+                int newTeacherID = random.nextInt(1000,9999);
+                Teacher updatedTeacher = new Teacher(newTeacherID, newName, newAge);
+                teacher.add(updatedTeacher);
+                teacher.remove(selectedTeacher);
+                System.out.println("Successfully updated teacher!");
+                System.out.println("New teachers' ID: " + newTeacherID);
+                return;
+            }
+        }
     }
     void removeTeacher() {
+        while(true) {
+            System.out.println("=====REMOVE-TEACHER=====");
+            if(teacher.isEmpty()) {
+                System.out.println("No teachers available to remove.");
+                return;
+            }
 
+            viewTeachers();
+            System.out.println("Pick a teacher to remove: ");
+            int option;
+
+            try {
+                option = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Numbers only!");
+                continue;
+            }
+
+            if(option < 1 || option > teacher.size()) {
+                System.out.println("Out of range!");
+                continue;
+            }
+
+            Teacher selectedTeacher = teacher.get(option - 1);
+            teacher.remove(selectedTeacher);
+            System.out.println("Successfully removed teacher!");
+            return;
+        }
     }
     /*===TEACHER===*/
 

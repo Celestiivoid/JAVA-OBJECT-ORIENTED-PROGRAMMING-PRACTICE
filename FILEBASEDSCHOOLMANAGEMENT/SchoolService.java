@@ -375,19 +375,199 @@ class SchoolService {
 
     /*===SUBJECT===*/
     void addSubject() {
+        while(true) {
+            System.out.println("=====ADD-SUBJECT=====");
+            System.out.println("Enter subject name: ");
+            String subjectName = scanner.nextLine();
 
+            if(subjectName.isEmpty()) {
+                System.out.println("Subject field cannot be empty.");
+                continue;
+            }
+
+            System.out.println("Enter subject code: ");
+            String subjectCode = scanner.nextLine();
+
+            if(!subjectCode.matches("\\d{3}")) {
+                System.out.println("3 digits only.");
+                continue;
+            }
+
+            if(teacher.isEmpty()) {
+                viewTeachers();
+                return;
+            }
+
+            viewTeachers();
+            System.out.println("Pick a teacher for this subject: ");
+            int option;
+
+            try {
+                option = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Numbers only!");
+                continue;
+            }
+
+            if(option < 1 || option > teacher.size()) {
+                System.out.println("Out of range!");
+                continue;
+            }
+
+            Teacher selectedTeacher = teacher.get(option - 1);
+
+            Subject newSubject = new Subject(selectedTeacher, subjectName, subjectCode);
+            subject.add(newSubject);
+            System.out.println("Successfully created subject!");
+            return;
+        }
     }
     void viewSubjects() {
+        if(subject.isEmpty()) {
+            System.out.println("No subjects are available.");
+            return;
+        }
 
+        for(int i = 0; i < subject.size(); i++) {
+            Subject view = subject.get(i);
+            System.out.println((i + 1) + ".) " + "Subject code: " 
+            + view.getSubjectCode() + " | Subject name: " + view.getSubjectName() 
+            + " | Assigned Teacher: " + view.getTeacherName());
+        }
     }
     void searchSubject() {
+        while(true) {
+            boolean isFound = false;
+            System.out.println("=====SEARCH-SUBJECT=====");
+            System.out.println("Enter subjects' code: ");
+            String subjectCode = scanner.nextLine();
 
+            if(subjectCode.isEmpty()) {
+                System.out.println("Subject code cannot be empty.");
+                continue;
+            }
+            if(!subjectCode.matches("\\d{3}")) {
+                System.out.println("3 digits only.");
+                continue;
+            }
+
+            for(int i = 0; i < subject.size(); i++) {
+                Subject search = subject.get(i);
+                if(subjectCode.equals(search.getSubjectCode())) {
+                    System.out.println("Subject found!");
+                    isFound = true;
+                    System.out.println((i + 1) + ".) " + "Subject code: " 
+                    + search.getSubjectCode() + " | Subject name: " + search.getSubjectName() 
+                    + " | Assigned Teacher: " + search.getTeacherName());
+                    return;
+                }
+            }
+
+            if(!isFound) {
+                System.out.println("Subject not found!");
+                return;
+            }
+        }
     }
     void updateSubject() {
+        while(true) {
+            System.out.println("=====UPDATE-SUBJECT=====");
+            if(subject.isEmpty()) {
+                viewSubjects();
+                return;
+            }
 
+            viewSubjects();
+            System.out.println("Select a subject to update: ");
+            int subjectOption;
+
+            try {
+                subjectOption = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Numbers only!");
+                continue;
+            }
+
+            if(subjectOption < 1 || subjectOption > subject.size()) {
+                System.out.println("Out of range!");
+                continue;
+            }
+            else {
+                Subject selectedSubject = subject.get(subjectOption - 1);
+                System.out.println("Enter new subject name: ");
+                String newName = scanner.nextLine();
+
+                if(newName.isEmpty()) {
+                    System.out.println("Name field cannot be empty.");
+                    continue;
+                }
+
+                System.out.println("Enter new subject code: ");
+                String newCode = scanner.nextLine();
+
+                if(newCode.isEmpty()) {
+                    System.out.println("Code field cannot be empty.");
+                    continue;
+                }
+                if(!newCode.matches("\\d{3}")) {
+                    System.out.println("3 digits only!");
+                    continue;
+                }
+
+                viewTeachers();
+                System.out.println("Select a teacher to assign: ");
+                int teacherOption;
+
+                try {
+                    teacherOption = Integer.parseInt(scanner.nextLine());
+                } catch (NumberFormatException e) {
+                    System.out.println("Numbers only!");
+                    continue;
+                }
+
+                if(teacherOption < 1 || teacherOption > teacher.size()) {
+                    System.out.println("Out of range!");
+                    continue;
+                }
+
+                Teacher selectedTeacher = teacher.get(teacherOption - 1);
+
+                Subject updatedSubject = new Subject(selectedTeacher, newName, newCode);
+                subject.remove(selectedSubject);
+                subject.add(updatedSubject);
+                System.out.println("Successfully updated subject!");
+                return;
+            }
+        }
     }
     void removeSubject() {
+        while(true) {
+            System.out.println("=====REMOVE-SUBJECTS=====");
+            if(subject.isEmpty()) {
+                viewSubjects();
+                return;
+            }
+            
+            viewSubjects();
+            System.out.println("Select a subject to remove: ");
+            int option;
 
+            try {
+                option = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Numbers only!");
+                continue;
+            }
+
+            if(option < 1 || option > subject.size()) {
+                System.out.println("Out of range!");
+            }
+
+            Subject selectedSubject = subject.get(option - 1);
+            subject.remove(selectedSubject);
+            System.out.println("Successfully removed subject!");
+            return;
+        }
     }
     /*===SUBJECT===*/
 

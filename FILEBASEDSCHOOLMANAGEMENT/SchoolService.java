@@ -573,13 +573,129 @@ class SchoolService {
 
     /*===ENROLLMENT===*/
     void enrollStudent() {
-        
+        while(true) {
+            System.out.println("=====ENROLLMENT=====");
+            if(student.isEmpty()) {
+                viewStudents();
+                return;
+            }
+
+            viewStudents();
+            System.out.println("Select a student to enroll: ");
+            int studentOption;
+
+            try {
+                studentOption = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Numbers only!");
+                continue;
+            }
+            if(studentOption < 1 || studentOption > student.size()) {
+                System.out.println("Out of range!");
+                continue;
+            }
+
+            Student selectedStudent = student.get(studentOption - 1);
+
+            if(subject.isEmpty()) {
+                viewSubjects();
+                return;
+            }
+
+            viewSubjects();
+            System.out.println("Select a subject to enroll: ");
+            int subjectOption;
+
+            try {
+                subjectOption = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Numbers only!");
+                continue;
+            }
+
+            if(subjectOption < 1 || subjectOption > subject.size()) {
+                System.out.println("Out of range!");
+                continue;
+            }
+
+            Subject selectedSubject = subject.get(subjectOption - 1);
+
+            System.out.println("Add another subject?");
+            System.out.println("[1] Yes");
+            System.out.println("[2] No");
+            int addOption;
+
+            try {
+                addOption = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Numbers only!");
+                continue;
+            }
+
+            switch(addOption) {
+                case 1 -> {
+                    viewSubjects();
+                }
+                case 2 -> {
+                int enrollmentIDN = random.nextInt(1000,9999);
+                Enrollment newEnrollment = new Enrollment(enrollmentIDN, selectedStudent, selectedSubject);
+                enrollment.add(newEnrollment);
+                System.out.println("Successfully enrolled student!");
+                System.out.println("Enrollment Identification number: " + enrollmentIDN);
+                return;
+                }
+            }
+        }
     }
     void dropSubject() {
 
     }
     void viewEnrollments() {
+        while(true) {
+            boolean isFound = false;
+            System.out.println("=====VIEW-ENROLLMENT=====");
+            System.out.println("Enter enrollment identification number: ");
+            int enrollmentIDN;
 
+            try {
+                enrollmentIDN = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Numbers only!");
+                continue;
+            }
+
+            if(enrollmentIDN < 1000 || enrollmentIDN > 9999) {
+                System.out.println("4 Digits only.");
+                continue;
+            }
+
+            for(int i = 0; i < enrollment.size(); i++) {
+                Enrollment view = enrollment.get(i);
+                if(enrollmentIDN == view.getEnrollmentIDN()) {
+                    isFound = true;
+                    System.out.println("Enrollment found!");
+                    System.out.println("==========ENROLLMENT-INFORMATION==========" 
+                                        + "\nEnrollment Identification number: " + view.getEnrollmentIDN()
+                                        + "\nStudent ID: " + view.getStudent().getStudentID()
+                                        + "\nStudent name: " + view.getStudent().getStudentName()
+                                        + "\nStudents' age: " + view.getStudent().getStudentAge()
+                                        + "\n---------------ENROLLED-SUBJECT---------------");
+                    for(int j = 0; j < enrollment.size(); j++) {
+                        Enrollment subjectView = enrollment.get(j);
+                        if(enrollmentIDN == subjectView.getEnrollmentIDN()) {
+                             System.out.println((j + 1) + ".) " + "Subject code: " + subjectView.getSubject().getSubjectCode() 
+                            + " | Subject name: " + subjectView.getSubject().getSubjectName() + " | Adviser: " + subjectView.getSubject().getTeacherName());
+                        }
+                    }
+                    return;
+                }
+            }
+
+            if(!isFound) {
+                System.out.println("Enrollment record not found!");
+                return;
+            }
+        }
     }
     /*===ENROLLMENT===*/
 

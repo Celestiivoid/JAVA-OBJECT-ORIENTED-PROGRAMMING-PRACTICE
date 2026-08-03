@@ -1,6 +1,6 @@
 package FILEBASEDSCHOOLMANAGEMENT;
 
-public class Student {
+class Student {
     private int studentID;
     private String studentName;
     private int studentAge;

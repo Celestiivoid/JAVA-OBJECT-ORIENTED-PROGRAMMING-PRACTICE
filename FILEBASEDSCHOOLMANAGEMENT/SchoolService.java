@@ -574,14 +574,13 @@ class SchoolService {
     /*===ENROLLMENT===*/
     void enrollStudent() {
         while(true) {
-            System.out.println("=====ENROLLMENT=====");
+            System.out.println("=====ENROLL-STUDENT=====");
             if(student.isEmpty()) {
                 viewStudents();
                 return;
             }
-
             viewStudents();
-            System.out.println("Select a student to enroll: ");
+            System.out.println("Pick a student to enroll: ");
             int studentOption;
 
             try {
@@ -590,59 +589,58 @@ class SchoolService {
                 System.out.println("Numbers only!");
                 continue;
             }
-            if(studentOption < 1 || studentOption > student.size()) {
-                System.out.println("Out of range!");
-                continue;
-            }
 
             Student selectedStudent = student.get(studentOption - 1);
+            int enrollmentIDN = random.nextInt(1000,9999);
 
-            if(subject.isEmpty()) {
+            while(true) {
                 viewSubjects();
-                return;
-            }
+                System.out.println("Pick a subject to enroll: ");
+                int subjectOption;
 
-            viewSubjects();
-            System.out.println("Select a subject to enroll: ");
-            int subjectOption;
-
-            try {
-                subjectOption = Integer.parseInt(scanner.nextLine());
-            } catch (NumberFormatException e) {
-                System.out.println("Numbers only!");
-                continue;
-            }
-
-            if(subjectOption < 1 || subjectOption > subject.size()) {
-                System.out.println("Out of range!");
-                continue;
-            }
-
-            Subject selectedSubject = subject.get(subjectOption - 1);
-
-            System.out.println("Add another subject?");
-            System.out.println("[1] Yes");
-            System.out.println("[2] No");
-            int addOption;
-
-            try {
-                addOption = Integer.parseInt(scanner.nextLine());
-            } catch (NumberFormatException e) {
-                System.out.println("Numbers only!");
-                continue;
-            }
-
-            switch(addOption) {
-                case 1 -> {
-                    viewSubjects();
+                try {
+                    subjectOption = Integer.parseInt(scanner.nextLine());
+                } catch (NumberFormatException e) {
+                    System.out.println("Numbers only!");
+                    continue;
                 }
-                case 2 -> {
-                int enrollmentIDN = random.nextInt(1000,9999);
+
+                if(subjectOption < 1 || subjectOption > subject.size()) {
+                    System.out.println("Out of range!");
+                    continue;
+                }
+
+                Subject selectedSubject = subject.get(subjectOption - 1);
+
                 Enrollment newEnrollment = new Enrollment(enrollmentIDN, selectedStudent, selectedSubject);
                 enrollment.add(newEnrollment);
-                System.out.println("Successfully enrolled student!");
-                System.out.println("Enrollment Identification number: " + enrollmentIDN);
-                return;
+
+                System.out.println("Add another subject?");
+                System.out.println("[1] Yes");
+                System.out.println("[2] No");
+                System.out.println("Pick option: ");
+                int addOption;
+
+                try {
+                    addOption = Integer.parseInt(scanner.nextLine());
+                } catch (NumberFormatException e) {
+                    System.out.println("Numbers only!");
+                    continue;
+                }
+
+                if(addOption < 1 || addOption > 2) {
+                    System.out.println("Out of range!");
+                    continue;
+                }
+                switch(addOption) {
+                    case 1 : {
+                        continue;
+                    }
+                    case 2 : {
+                        System.out.println("Successfully enrolled student!");
+                        System.out.println("Enrollment identification number: " + enrollmentIDN);
+                        return;
+                    }
                 }
             }
         }

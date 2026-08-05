@@ -646,7 +646,63 @@ class SchoolService {
         }
     }
     void dropSubject() {
+        while(true) {
+            boolean isFound = false;
+            System.out.println("=====DROP-SUBJECT=====");
+            System.out.println("Enter enrollment identifcation number: ");
+            int enrollmentIDN;
 
+            try {
+                enrollmentIDN = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Numbers only!");
+                continue;
+            }
+
+            if(enrollmentIDN < 1000 || enrollmentIDN > 9999) {
+                System.out.println("4 Digits only!");
+                continue;
+            }
+
+            for(int i = 0; i < enrollment.size(); i++) {
+                Enrollment drop = enrollment.get(i);
+                if(enrollmentIDN == drop.getEnrollmentIDN()) {
+                    isFound = true;
+                    System.out.println("Enrollment found!");
+                    System.out.println((i + 1) + ".) " + "Subject name: " + drop.getSubject().getSubjectName());
+                }
+            }
+
+            while(true) {
+                 System.out.println("Pick a subject to drop: ");
+                int subjectOption;
+
+                try {
+                subjectOption = Integer.parseInt(scanner.nextLine());
+                } catch (NumberFormatException e) {
+                System.out.println("Numbers only!");
+                continue;
+                }
+
+                Enrollment enrolledSubject = enrollment.get(subjectOption - 1);
+
+                enrollment.remove(enrolledSubject); 
+
+                System.out.println("Drop another subject? ");
+                System.out.println("[1] Yes");
+                System.out.println("[2] No");
+                System.out.println("Pick option: ");
+                int option;
+
+                try {
+                    option = Integer.parseInt(scanner.nextLine());
+                } catch (NumberFormatException e) {
+                    System.out.println("Numbers only!");
+                    continue;
+                }
+            }
+
+        }
     }
     void viewEnrollments() {
         while(true) {

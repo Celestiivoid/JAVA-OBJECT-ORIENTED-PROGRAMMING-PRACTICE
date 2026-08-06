@@ -664,23 +664,22 @@ class SchoolService {
                 System.out.println("4 Digits only!");
                 continue;
             }
-
-
-            while(true) {
-                for(int i = 0; i < enrollment.size(); i++) {
+            for(int i = 0; i < enrollment.size(); i++) {
                 Enrollment drop = enrollment.get(i);
                 if(enrollmentIDN == drop.getEnrollmentIDN()) {
                     matchedSubject.add(drop);
                     isFound = true;
                     System.out.println("Enrollment found!");
                     System.out.println(matchedSubject.size() + ".) " + "Subject name: " + drop.getSubject().getSubjectName());
-                    }
                 }
-                if(!isFound) {
+            }
+            
+            if(!isFound) {
                 System.out.println("Enrollment not found!");
                 continue;
                 }
 
+            while(true) {
                 System.out.println("Pick a subject to drop: ");
                 int subjectOption;
 
@@ -719,7 +718,13 @@ class SchoolService {
 
                 switch(option) {
                     case 1: {
-                        break;
+                        int increment = 1;
+                        for(int i = 0; i < enrollment.size(); i++) {
+                        Enrollment drop = enrollment.get(i);
+                        System.out.println(increment + ".) " + "Subject name: " + drop.getSubject().getSubjectName());
+                        increment++;
+                        }
+                        continue;
                     }
                     case 2: {
                         System.out.println("Successfully dropped subject(s).");

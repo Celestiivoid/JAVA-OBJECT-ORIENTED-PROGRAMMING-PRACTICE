@@ -9,6 +9,7 @@ class SchoolService {
     static ArrayList<Teacher> teacher = new ArrayList<>();
     static ArrayList<Subject> subject = new ArrayList<>();
     static ArrayList<Enrollment> enrollment = new ArrayList<>();
+    static ArrayList<Enrollment> matchedSubject = new ArrayList<>();
     static ArrayList<Grade> grade = new ArrayList<>();
     
     /*===STUDENT===*/
@@ -664,17 +665,23 @@ class SchoolService {
                 continue;
             }
 
-            for(int i = 0; i < enrollment.size(); i++) {
-                Enrollment drop = enrollment.get(i);
-                if(enrollmentIDN == drop.getEnrollmentIDN()) {
-                    isFound = true;
-                    System.out.println("Enrollment found!");
-                    System.out.println((i + 1) + ".) " + "Subject name: " + drop.getSubject().getSubjectName());
-                }
-            }
 
             while(true) {
-                 System.out.println("Pick a subject to drop: ");
+                for(int i = 0; i < enrollment.size(); i++) {
+                Enrollment drop = enrollment.get(i);
+                if(enrollmentIDN == drop.getEnrollmentIDN()) {
+                    matchedSubject.add(drop);
+                    isFound = true;
+                    System.out.println("Enrollment found!");
+                    System.out.println(matchedSubject.size() + ".) " + "Subject name: " + drop.getSubject().getSubjectName());
+                    }
+                }
+                if(!isFound) {
+                System.out.println("Enrollment not found!");
+                continue;
+                }
+
+                System.out.println("Pick a subject to drop: ");
                 int subjectOption;
 
                 try {
@@ -684,9 +691,13 @@ class SchoolService {
                 continue;
                 }
 
-                Enrollment enrolledSubject = enrollment.get(subjectOption - 1);
+                if(subjectOption < 1 || subjectOption > matchedSubject.size()) {
+                    System.out.println("Out of range!");
+                    continue;
+                }
 
-                enrollment.remove(enrolledSubject); 
+                Enrollment droppedSubject = matchedSubject.get(subjectOption - 1);
+                enrollment.remove(droppedSubject); 
 
                 System.out.println("Drop another subject? ");
                 System.out.println("[1] Yes");
@@ -700,8 +711,22 @@ class SchoolService {
                     System.out.println("Numbers only!");
                     continue;
                 }
-            }
 
+                if(option < 1 || option > 2) {
+                    System.out.println("Out of range!");
+                    continue;
+                }
+
+                switch(option) {
+                    case 1: {
+                        break;
+                    }
+                    case 2: {
+                        System.out.println("Successfully dropped subject(s).");
+                        return;
+                    }
+                }
+            }
         }
     }
     void viewEnrollments() {

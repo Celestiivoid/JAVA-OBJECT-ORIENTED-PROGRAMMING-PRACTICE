@@ -209,7 +209,7 @@ public class SchoolMain {
                             continue;
                         }
 
-                        if(optionSM < 1 || optionSM > 4) {
+                        if(optionSM < 0 || optionSM > 4) {
                             System.out.println("Out of range!");
                             continue;
                         }

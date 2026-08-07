@@ -9,7 +9,6 @@ class SchoolService {
     static ArrayList<Teacher> teacher = new ArrayList<>();
     static ArrayList<Subject> subject = new ArrayList<>();
     static ArrayList<Enrollment> enrollment = new ArrayList<>();
-    static ArrayList<Enrollment> matchedSubject = new ArrayList<>();
     static ArrayList<Grade> grade = new ArrayList<>();
     
     /*===STUDENT===*/
@@ -647,6 +646,7 @@ class SchoolService {
         }
     }
     void dropSubject() {
+        ArrayList<Enrollment> matchedSubject = new ArrayList<>();
         while(true) {
             boolean isFound = false;
             System.out.println("=====DROP-SUBJECT=====");
@@ -785,13 +785,154 @@ class SchoolService {
 
     /*===GRADE===*/
     void encodeGrade() {
+        ArrayList<Enrollment> matchedSubject = new ArrayList<>();
+        while(true) {
+            boolean isFound = false;
+            System.out.println("=====GRADE-INPUT=====");
+            System.out.println("Enter enrollment identification number: ");
+            int enrollmentIDN;
 
+            try {
+                enrollmentIDN = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Numbers only!");
+                continue;
+            }
+
+            if(enrollmentIDN < 1000 || enrollmentIDN > 9999) {
+                System.out.println("4 digits only!");
+                continue;
+            }
+
+            for(int i = 0; i < enrollment.size(); i++) {
+                Enrollment input = enrollment.get(i);
+                if(enrollmentIDN == input.getEnrollmentIDN()) {
+                    matchedSubject.add(input);
+                    isFound = true;
+                    System.out.println("Enrollment found!");
+                    System.out.println(matchedSubject.size() + ".) " + "Subject name: " + input.getSubject().getSubjectName());
+                }
+            }
+            if(!isFound) {
+                System.out.println("Enrollment not found!");
+                continue;
+            }
+            while(true) {
+                System.out.println("Pick a subject to grade: ");
+                int subjectOption;
+
+                try {
+                    subjectOption = Integer.parseInt(scanner.nextLine());
+                } catch (NumberFormatException e) {
+                    System.out.println("Numbers only!");
+                    continue;
+                }
+
+                if(subjectOption < 1 || subjectOption > matchedSubject.size()) {
+                    System.out.println("Out of range!");
+                    continue;
+                }
+
+                System.out.println("Enter grade: ");
+                double subjectGrade;
+
+                try {
+                    subjectGrade = Double.parseDouble(scanner.nextLine());
+                } catch (NumberFormatException e) {
+                    System.out.println("Numbers only!");
+                    continue;
+                }
+
+                if(subjectGrade <= 0.0 || subjectGrade > 100.0) {
+                    System.out.println("Canot set 0 and negative numbers or more than 100.");
+                    continue;
+                }
+                
+                Enrollment selectedSubject = matchedSubject.get(subjectOption - 1);
+                Grade newGrade = new Grade(selectedSubject, subjectGrade);
+                grade.add(newGrade);
+                System.out.println("Grade another subject? ");
+                System.out.println("[1] Yes");
+                System.out.println("[2] No");
+                System.out.println("Enter option: ");
+                int selection;
+
+                try {
+                    selection = Integer.parseInt(scanner.nextLine());
+                } catch (NumberFormatException e) {
+                    System.out.println("Numbers only!");
+                    continue;
+                }
+
+                if(selection < 1 || selection > 2) {
+                    System.out.println("Out of range!");
+                    continue;
+                }
+                switch(selection) {
+                    case 1: {
+                        for(int i = 0; i < matchedSubject.size(); i++) {
+                            Enrollment grade = matchedSubject.get(i);
+                            System.out.println((i + 1)+ ".) " + "Subject name: " + grade.getSubject().getSubjectName());
+                        }
+                        continue;
+                    }
+                    case 2: {
+                        System.out.println("Successfully graded subject(s).");
+                        return;
+                    }
+                }
+            }
+        }
     }
     void updateGrade() {
 
     }
     void viewGrades() {
+        while(true) {
+            boolean isFound = false;
+            System.out.println("=====VIEW-GRADES=====");
+            System.out.println("Enter student ID: ");
+            int studentID;
 
+            try {
+                studentID = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Numbers only!");
+                continue;
+            }
+
+            if(studentID < 1000 || studentID > 9999) {
+                System.out.println("4 digits only!");
+                return;
+            }
+
+            for(int i = 0; i < student.size(); i++) {
+                Student graded = student.get(i);
+                if(grade.isEmpty()) {
+                    System.out.println("No graded subjects.");
+                    return;
+                }
+                if(studentID == graded.getStudentID()) {
+                    isFound = true;
+                    System.out.println("Student found!");
+                    System.out.println("Student ID: " + graded.getStudentID()
+                    + "\nStudent name: " + graded.getStudentName());
+                }
+                for(int j = 0; j < grade.size(); j++) {
+                    Grade grades = grade.get(j);
+                    if(studentID == grades.getEnrollment().getStudent().getStudentID()) {
+                        System.out.println("=====GRADED-SUBJECTS=====");
+                        System.out.println((j + 1) 
+                        + ".) " + "Subject name: " + grades.getEnrollment().getSubject().getSubjectName() 
+                        + " | Grade: " + grades.getStudentGrade());
+                    }
+                }
+            }
+            if(!isFound) {
+                System.out.println("Student not found!");
+                continue;
+            }
+        }
     }
     void viewReportCard() {
 

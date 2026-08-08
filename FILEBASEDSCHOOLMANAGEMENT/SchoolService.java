@@ -917,17 +917,22 @@ class SchoolService {
                     System.out.println("Student found!");
                     System.out.println("Student ID: " + graded.getStudentID()
                     + "\nStudent name: " + graded.getStudentName());
-                }
-                for(int j = 0; j < grade.size(); j++) {
-                    Grade grades = grade.get(j);
-                    if(studentID == grades.getEnrollment().getStudent().getStudentID()) {
+
+                    System.out.println("=====GRADED-SUBJECTS=====");
+
+                    for(int j = 0; j < grade.size(); j++) {
+                        Grade grades = grade.get(j);
+                        if(studentID == grades.getEnrollment().getStudent().getStudentID()) {
                         System.out.println("=====GRADED-SUBJECTS=====");
                         System.out.println((j + 1) 
                         + ".) " + "Subject name: " + grades.getEnrollment().getSubject().getSubjectName() 
                         + " | Grade: " + grades.getStudentGrade());
+                        }
                     }
+                    break;
                 }
             }
+
             if(!isFound) {
                 System.out.println("Student not found!");
                 continue;

@@ -905,13 +905,12 @@ class SchoolService {
                 System.out.println("4 digits only!");
                 return;
             }
-
+            if(grade.isEmpty()) {
+                System.out.println("No graded subjects.");
+                return;
+            }
             for(int i = 0; i < student.size(); i++) {
                 Student graded = student.get(i);
-                if(grade.isEmpty()) {
-                    System.out.println("No graded subjects.");
-                    return;
-                }
                 if(studentID == graded.getStudentID()) {
                     isFound = true;
                     System.out.println("Student found!");
@@ -920,11 +919,12 @@ class SchoolService {
 
                     System.out.println("=====GRADED-SUBJECTS=====");
 
+                    int gradeCounter = 1;
                     for(int j = 0; j < grade.size(); j++) {
                         Grade grades = grade.get(j);
                         if(studentID == grades.getEnrollment().getStudent().getStudentID()) {
                         System.out.println("=====GRADED-SUBJECTS=====");
-                        System.out.println((j + 1) 
+                        System.out.println(gradeCounter++ 
                         + ".) " + "Subject name: " + grades.getEnrollment().getSubject().getSubjectName() 
                         + " | Grade: " + grades.getStudentGrade());
                         }
@@ -940,7 +940,60 @@ class SchoolService {
         }
     }
     void viewReportCard() {
+        while(true) {
+            boolean isGraded = false;
+            System.out.println("=====VIEW-REPORT-CARD=====");
+            System.out.println("Enter student ID: ");
+            int studentID;
 
+            try {
+                studentID = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Numbers only!");
+                continue;
+            }
+
+            if(studentID < 1000 || studentID > 9999) {
+                System.out.println("4 digits only!");
+                continue;
+            }
+
+            for(int i = 0; i < student.size(); i++) {
+                Student graded = student.get(i);
+                if(studentID == graded.getStudentID()) {
+                    isGraded = true;
+                    System.out.println("Student ID: " + graded.getStudentID()
+                    + " | Student name: " + graded.getStudentName()
+                    + " | Student age: " + graded.getStudentAge());
+
+                    System.out.println("===============GRADES===============");
+                    double total = 0;
+                    int gradeCounter = 1;
+                    int totalGrade = 0;
+                    for(int j = 0; j < grade.size(); j++) {
+                        Grade grades = grade.get(j);
+                        total += grades.getStudentGrade();
+                        totalGrade++;
+                        if(studentID == grades.getEnrollment().getStudent().getStudentID()) {
+                            System.out.println(gradeCounter++ + ".) " 
+                            + " Subject name: " + grades.getEnrollment().getSubject().getSubjectName()
+                            + " | Grade: " + grades.getStudentGrade());
+                        }
+                    }
+                    if(totalGrade == 0) {
+                        System.out.println("No graded subjects at the moment.");
+                    } else {
+                        double gwa = total /totalGrade;
+                        System.out.println("GWA: " + gwa);
+                    }
+                    break;
+                }
+            }
+            if(!isGraded) {
+                System.out.println("Student not yet graded.");
+                return;
+            }
+        }
     }
     /*===GRADE===*/
 

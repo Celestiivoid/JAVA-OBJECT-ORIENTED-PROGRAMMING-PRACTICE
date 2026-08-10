@@ -574,6 +574,7 @@ class SchoolService {
     /*===ENROLLMENT===*/
     void enrollStudent() {
         while(true) {
+            boolean isEnrolled = false;
             System.out.println("=====ENROLL-STUDENT=====");
             if(student.isEmpty()) {
                 viewStudents();
@@ -611,6 +612,19 @@ class SchoolService {
                 }
 
                 Subject selectedSubject = subject.get(subjectOption - 1);
+
+                for(Enrollment enroll : enrollment) {
+                    if(enroll.getStudent().getStudentID() == selectedStudent.getStudentID()
+                    && enroll.getSubject().getSubjectName().equals(selectedSubject.getSubjectName())) {
+                        isEnrolled = true;
+                        break;
+                    }
+                }
+
+                if(isEnrolled) {
+                    System.out.println(selectedStudent.getStudentName() + " is already enrolled for this subject.");
+                    return;
+                }
 
                 Enrollment newEnrollment = new Enrollment(enrollmentIDN, selectedStudent, selectedSubject);
                 enrollment.add(newEnrollment);
@@ -847,7 +861,7 @@ class SchoolService {
                     System.out.println("Canot set 0 and negative numbers or more than 100.");
                     continue;
                 }
-                
+
                 Enrollment selectedSubject = matchedSubject.get(subjectOption - 1);
                 Grade newGrade = new Grade(selectedSubject, subjectGrade);
                 grade.add(newGrade);
@@ -972,18 +986,20 @@ class SchoolService {
                     int totalGrade = 0;
                     for(int j = 0; j < grade.size(); j++) {
                         Grade grades = grade.get(j);
-                        total += grades.getStudentGrade();
-                        totalGrade++;
                         if(studentID == grades.getEnrollment().getStudent().getStudentID()) {
-                            System.out.println(gradeCounter++ + ".) " 
-                            + " Subject name: " + grades.getEnrollment().getSubject().getSubjectName()
-                            + " | Grade: " + grades.getStudentGrade());
+                            total += grades.getStudentGrade();
+                            totalGrade++;
+                            System.out.println(gradeCounter++ + ".) "
+                                + "Subject name: "
+                                + grades.getEnrollment().getSubject().getSubjectName()
+                                + " | Grade: "
+                                + grades.getStudentGrade());
                         }
                     }
                     if(totalGrade == 0) {
                         System.out.println("No graded subjects at the moment.");
                     } else {
-                        double gwa = total /totalGrade;
+                        double gwa = total / totalGrade;
                         System.out.println("GWA: " + gwa);
                     }
                     break;
@@ -995,11 +1011,4 @@ class SchoolService {
             }
         }
     }
-    /*===GRADE===*/
-
-    /*===REPORT===*/
-    void viewReport() {
-        
-    }
-    /*===REPORT===*/
 }

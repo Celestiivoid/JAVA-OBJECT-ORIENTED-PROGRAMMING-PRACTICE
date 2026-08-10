@@ -195,7 +195,6 @@ public class SchoolMain {
                         System.out.println("[1] Encode Grade");
                         System.out.println("[2] Update Grade");
                         System.out.println("[3] View Grades");
-                        System.out.println("[4] View Report Card");
                         System.out.println("--------------------");
                         System.out.println("[0] Return");
 
@@ -209,7 +208,7 @@ public class SchoolMain {
                             continue;
                         }
 
-                        if(optionSM < 0 || optionSM > 4) {
+                        if(optionSM < 0 || optionSM > 3) {
                             System.out.println("Out of range!");
                             continue;
                         }
@@ -221,11 +220,10 @@ public class SchoolMain {
                             case 1 -> service.encodeGrade();
                             case 2 -> service.updateGrade();
                             case 3 -> service.viewGrades();
-                            case 4 -> service.viewReportCard();
                         }
                     }
                 }
-                case 6 -> service.viewReport();
+                case 6 -> service.viewReportCard();
                 case 7 -> {
                     manager.saveStudent(SchoolService.student);
                     System.out.println("Data saved successfully!");

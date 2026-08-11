@@ -384,6 +384,13 @@ class SchoolService {
                 System.out.println("Subject field cannot be empty.");
                 continue;
             }
+            for(int i = 0; i < subject.size(); i++) {
+                Subject view = subject.get(i);
+                if(subjectName.equals(view.getSubjectName())) {
+                    System.out.println("Subject already added.");
+                    return;
+                }
+            }
 
             System.out.println("Enter subject code: ");
             String subjectCode = scanner.nextLine();
@@ -391,6 +398,14 @@ class SchoolService {
             if(!subjectCode.matches("\\d{3}")) {
                 System.out.println("3 digits only.");
                 continue;
+            }
+
+            for(int i = 0; i < subject.size(); i++) {
+                Subject view = subject.get(i);
+                if(subjectCode.equals(view.getSubjectCode())) {
+                    System.out.println("Code " + subjectCode + " is already used for the subject " + view.getSubjectName());
+                    return;
+                }
             }
 
             if(teacher.isEmpty()) {
@@ -899,7 +914,81 @@ class SchoolService {
         }
     }
     void updateGrade() {
+        ArrayList<Enrollment> matchedSubject = new ArrayList<>();
+        ArrayList<Grade> matchedGrade = new ArrayList<>();
+        while(true) {
+            System.out.println("=====UPDATE-GRADE=====");
+            System.out.println("Enter student ID: ");
+            int studentID;
 
+            try {
+                studentID = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Numbers only!");
+                continue;
+            }
+
+            if(studentID < 1000 || studentID > 9999) {
+                System.out.println("4 digits only!");
+                continue;
+            }
+
+            for(int i = 0; i < student.size(); i++) {
+                Student view = student.get(i);
+                if(view.getStudentID() == studentID) {
+                    System.out.println("Student found!");
+                    System.out.println("Student name: " + view.getStudentName()
+                    + " | Student age: " + view.getStudentAge());
+
+                    for(int j = 0; j < enrollment.size() && j < grade.size(); j++) {
+                        Enrollment viewSubject = enrollment.get(j);
+                        Grade viewGrade = grade.get(j);
+                        if(viewSubject.getStudent().getStudentID() == view.getStudentID()) {
+                            matchedSubject.add(viewSubject);
+                            matchedGrade.add(viewGrade);
+                            System.out.println(matchedSubject.size() + ".) " 
+                            + " Subject name: " + viewSubject.getSubject().getSubjectName()
+                            + " | Grade: " + viewGrade.getStudentGrade());
+                        }
+                    }
+                }
+            }
+            System.out.println("Pick a subject to update: ");
+            int option;
+
+            try {
+                option = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Numbers only!");
+                continue;
+            }
+
+            if(option < 1 || option > matchedSubject.size()) {
+                System.out.println("Out of range!");
+                continue;
+            }
+            else {
+                System.out.println("Enter new grade: ");
+                double newGrades;
+
+                try {
+                    newGrades = Integer.parseInt(scanner.nextLine());
+                } catch (NumberFormatException e) {
+                    System.out.println("Numbers only!");
+                    continue;
+                }
+
+                if(newGrades <= 0.0) {
+                    System.out.println("Cannot validate 0 or negative numbers.");
+                    continue;
+                }
+
+                Grade updatedGrade = matchedGrade.get(option - 1);
+                updatedGrade.setStudentGrade(newGrades);
+                System.out.println("Successfully updated grade");
+                return;
+            }
+        }
     }
     void viewGrades() {
         while(true) {

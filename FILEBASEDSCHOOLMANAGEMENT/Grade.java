@@ -10,6 +10,9 @@ class Grade {
     }
 
 
+    void setStudentGrade(double studentGrade) {
+        this.studentGrade = studentGrade;
+    }
     double getStudentGrade() {
         return studentGrade;
     }

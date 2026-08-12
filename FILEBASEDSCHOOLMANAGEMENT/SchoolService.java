@@ -873,13 +873,25 @@ class SchoolService {
                 }
 
                 if(subjectGrade <= 0.0 || subjectGrade > 100.0) {
-                    System.out.println("Canot set 0 and negative numbers or more than 100.");
+                    System.out.println("Cannot set 0 and negative numbers or more than 100.");
                     continue;
                 }
 
                 Enrollment selectedSubject = matchedSubject.get(subjectOption - 1);
+
+                for(Grade graded : grade) {
+                    if(graded.getEnrollment().getEnrollmentIDN() == selectedSubject.getEnrollmentIDN()) {
+                        System.out.println("Subject already graded.");
+                        continue;
+                    }
+                }
                 Grade newGrade = new Grade(selectedSubject, subjectGrade);
                 grade.add(newGrade);
+                matchedSubject.remove(subjectOption - 1);
+
+                if(matchedSubject.isEmpty()) {
+                    System.out.println("All subjects have been graded.");
+                }
                 System.out.println("Grade another subject? ");
                 System.out.println("[1] Yes");
                 System.out.println("[2] No");
@@ -917,6 +929,7 @@ class SchoolService {
         ArrayList<Enrollment> matchedSubject = new ArrayList<>();
         ArrayList<Grade> matchedGrade = new ArrayList<>();
         while(true) {
+            boolean isFound = false;
             System.out.println("=====UPDATE-GRADE=====");
             System.out.println("Enter student ID: ");
             int studentID;
@@ -936,6 +949,7 @@ class SchoolService {
             for(int i = 0; i < student.size(); i++) {
                 Student view = student.get(i);
                 if(view.getStudentID() == studentID) {
+                    isFound = true;
                     System.out.println("Student found!");
                     System.out.println("Student name: " + view.getStudentName()
                     + " | Student age: " + view.getStudentAge());
@@ -952,6 +966,10 @@ class SchoolService {
                         }
                     }
                 }
+            }
+            if(!isFound) {
+                System.out.println("Student not found!");
+                continue;
             }
             System.out.println("Pick a subject to update: ");
             int option;

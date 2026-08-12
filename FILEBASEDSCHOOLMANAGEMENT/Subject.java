@@ -2,6 +2,7 @@ package FILEBASEDSCHOOLMANAGEMENT;
 
 class Subject {
     private Teacher teacher;
+    private String teacherName;
     private String subjectName;
     private String subjectCode;
 
@@ -11,6 +12,11 @@ class Subject {
         this.subjectCode = subjectCode;
     }
 
+    Subject(String teacherName, String subjectName, String subjectCode) {
+        this.teacherName = teacherName;
+        this.subjectName = subjectName;
+        this.subjectCode = subjectCode;
+    }
 
     String getSubjectName() {
         return subjectName;

@@ -226,10 +226,14 @@ public class SchoolMain {
                 case 6 -> service.viewReportCard();
                 case 7 -> {
                     manager.saveStudent(SchoolService.student);
+                    manager.saveTeacher(SchoolService.teacher);
+                    manager.saveSubjects(SchoolService.subject);
                     System.out.println("Data saved successfully!");
                 }
                 case 8 -> {
                     manager.loadStudent(SchoolService.student);
+                    manager.loadTeacher(SchoolService.teacher);
+                    manager.loadSubjects(SchoolService.subject);
                     System.out.println("Data loaded successfully!");
                 }
             }

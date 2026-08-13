@@ -72,10 +72,10 @@ public class SchoolFileManager {
         while((line = load.readLine()) != null) {
             String [] subjectData = line.split(",");
             String teacherName = subjectData[0];
-            String subjectName = subjectData[1];
-            String subjectCode = subjectData[2];
+            String subjectCode = subjectData[1];
+            String subjectName = subjectData[2];
 
-            subject.add(new Subject(teacherName, subjectName, subjectCode));
+            subject.add(new Subject(teacherName, subjectCode, subjectName));
         }
         load.close();
     }

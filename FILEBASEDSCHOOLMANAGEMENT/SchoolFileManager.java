@@ -79,8 +79,8 @@ public class SchoolFileManager {
         }
         load.close();
     }
-    void saveEnrollment() {
-
+    void saveEnrollment(ArrayList<Enrollment> enrollment) throws IOException {
+        
     }
     void loadEnrollment() {
 

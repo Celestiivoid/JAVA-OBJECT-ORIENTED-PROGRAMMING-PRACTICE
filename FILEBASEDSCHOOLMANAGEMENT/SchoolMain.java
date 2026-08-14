@@ -228,6 +228,7 @@ public class SchoolMain {
                     manager.saveStudent(SchoolService.student);
                     manager.saveTeacher(SchoolService.teacher);
                     manager.saveSubjects(SchoolService.subject);
+                    manager.saveEnrollment(SchoolService.enrollment);
                     System.out.println("Data saved successfully!");
                 }
                 case 8 -> {

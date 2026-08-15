@@ -235,6 +235,7 @@ public class SchoolMain {
                     manager.loadStudent(SchoolService.student);
                     manager.loadTeacher(SchoolService.teacher);
                     manager.loadSubjects(SchoolService.subject);
+                    manager.loadEnrollment(SchoolService.enrollment, SchoolService.student, SchoolService.subject);
                     System.out.println("Data loaded successfully!");
                 }
             }

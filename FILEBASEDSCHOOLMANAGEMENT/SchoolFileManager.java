@@ -80,10 +80,57 @@ public class SchoolFileManager {
         load.close();
     }
     void saveEnrollment(ArrayList<Enrollment> enrollment) throws IOException {
-        
+        BufferedWriter save = new BufferedWriter(new FileWriter("Enrollment.csv"));
+        for(Enrollment enrollments : enrollment) {
+            save.write(enrollments.getEnrollmentIDN()
+            + "," + enrollments.getStudent().getStudentID()
+            + "," + enrollments.getStudent().getStudentName()
+            + "," + enrollments.getStudent().getStudentAge()
+            + "," + enrollments.getSubject().getSubjectCode()
+            + "," + enrollments.getSubject().getSubjectName()
+            + "," + enrollments.getSubject().getTeacherName());
+            save.newLine();
+        }
+        save.close();
     }
-    void loadEnrollment() {
 
+    void loadEnrollment(ArrayList<Enrollment> enrollment,
+        ArrayList<Student> student,
+        ArrayList<Subject> subject) throws IOException {
+        BufferedReader load = new BufferedReader(new FileReader("Enrollment.csv"));
+        String line;
+
+        while((line = load.readLine()) != null) {
+            String [] enrollmentData = line.split(",");
+            int enrollmentID = Integer.parseInt(enrollmentData[0]);
+            int studentID = Integer.parseInt(enrollmentData[1]);
+            String studentName = enrollmentData[2];
+            int studentAge = Integer.parseInt(enrollmentData[3]);
+            String subjectName = enrollmentData[4];
+            String subjectID = enrollmentData[5];
+            String teacherName = enrollmentData[6];
+
+            Student selectedStudent = null;
+            Subject selectedSubject = null;
+
+            for(Student students : student) {
+                if(students.getStudentID() == studentID) {
+                    selectedStudent = students;
+                    break;
+                }
+            }
+
+            for(Subject subjects : subject) {
+                if(subjects.getSubjectCode().equals(subjectID)) {
+                    selectedSubject = subjects;
+                    break;
+                }
+            }
+
+            if(selectedStudent != null && selectedSubject != null) {
+            }
+        }
+        load.close();
     }
     void saveGrades() {
 

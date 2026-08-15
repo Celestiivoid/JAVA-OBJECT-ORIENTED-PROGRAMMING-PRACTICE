@@ -806,6 +806,11 @@ class SchoolService {
 
             if(!isFound) {
                 System.out.println("Enrollment record not found!");
+
+                for(int i = 0; i < enrollment.size(); i++) {
+                    Enrollment ID = enrollment.get(i);
+                    System.out.println(ID.getEnrollmentIDN());
+                }
                 return;
             }
         }

@@ -797,7 +797,8 @@ class SchoolService {
                         Enrollment subjectView = enrollment.get(j);
                         if(enrollmentIDN == subjectView.getEnrollmentIDN()) {
                              System.out.println((j + 1) + ".) " + "Subject code: " + subjectView.getSubject().getSubjectCode() 
-                            + " | Subject name: " + subjectView.getSubject().getSubjectName() + " | Adviser: " + subjectView.getSubject().getTeacherName());
+                            + " | Subject name: " + subjectView.getSubject().getSubjectName()
+                            + " | Adviser: " + subjectView.getSubject().getTeacherName());
                         }
                     }
                     return;
@@ -844,7 +845,8 @@ class SchoolService {
                     matchedSubject.add(input);
                     isFound = true;
                     System.out.println("Enrollment found!");
-                    System.out.println(matchedSubject.size() + ".) " + "Subject name: " + input.getSubject().getSubjectName());
+                    System.out.println(matchedSubject.size() + ".) " + "Subject name: " + input.getSubject().getSubjectName()
+                    + " | Subject code: " + input.getSubject().getSubjectCode());
                 }
             }
             if(!isFound) {
@@ -918,7 +920,8 @@ class SchoolService {
                     case 1: {
                         for(int i = 0; i < matchedSubject.size(); i++) {
                             Enrollment grade = matchedSubject.get(i);
-                            System.out.println((i + 1)+ ".) " + "Subject name: " + grade.getSubject().getSubjectName());
+                            System.out.println((i + 1)+ ".) " + "Subject name: " + grade.getSubject().getSubjectName()
+                            + " | Subject code: " + grade.getSubject().getSubjectCode());
                         }
                         continue;
                     }
@@ -1051,7 +1054,8 @@ class SchoolService {
                         if(studentID == grades.getEnrollment().getStudent().getStudentID()) {
                         System.out.println("=====GRADED-SUBJECTS=====");
                         System.out.println(gradeCounter++ 
-                        + ".) " + "Subject name: " + grades.getEnrollment().getSubject().getSubjectName() 
+                        + ".) " + "Subject name: " + grades.getEnrollment().getSubject().getSubjectName()
+                        + " | Subject code: " + grades.getEnrollment().getSubject().getSubjectCode()
                         + " | Grade: " + grades.getStudentGrade());
                         }
                     }

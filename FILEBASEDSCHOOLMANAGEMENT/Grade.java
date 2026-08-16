@@ -8,8 +8,6 @@ class Grade {
         this.enrollment = enrollment;
         this.studentGrade = studentGrade;
     }
-
-
     void setStudentGrade(double studentGrade) {
         this.studentGrade = studentGrade;
     }

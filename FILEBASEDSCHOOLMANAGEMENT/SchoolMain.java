@@ -229,6 +229,7 @@ public class SchoolMain {
                     manager.saveTeacher(SchoolService.teacher);
                     manager.saveSubjects(SchoolService.subject);
                     manager.saveEnrollment(SchoolService.enrollment);
+                    manager.saveGrades(SchoolService.grade);
                     System.out.println("Data saved successfully!");
                 }
                 case 8 -> {
@@ -236,6 +237,7 @@ public class SchoolMain {
                     manager.loadTeacher(SchoolService.teacher);
                     manager.loadSubjects(SchoolService.subject);
                     manager.loadEnrollment(SchoolService.enrollment, SchoolService.student, SchoolService.subject);
+                    manager.loadGrades(SchoolService.grade, SchoolService.enrollment);
                     System.out.println("Data loaded successfully!");
                 }
             }

@@ -75,7 +75,7 @@ public class SchoolFileManager {
             String subjectCode = subjectData[1];
             String subjectName = subjectData[2];
 
-            subject.add(new Subject(teacherName, subjectCode, subjectName));
+            subject.add(new Subject(teacherName, subjectName, subjectCode));
         }
         load.close();
     }
@@ -84,11 +84,7 @@ public class SchoolFileManager {
         for(Enrollment enrollments : enrollment) {
             save.write(enrollments.getEnrollmentIDN()
             + "," + enrollments.getStudent().getStudentID()
-            + "," + enrollments.getStudent().getStudentName()
-            + "," + enrollments.getStudent().getStudentAge()
-            + "," + enrollments.getSubject().getSubjectCode()
-            + "," + enrollments.getSubject().getSubjectName()
-            + "," + enrollments.getSubject().getTeacherName());
+            + "," + enrollments.getSubject().getSubjectCode());
             save.newLine();
         }
         save.close();
@@ -104,11 +100,8 @@ public class SchoolFileManager {
             String [] enrollmentData = line.split(",");
             int enrollmentID = Integer.parseInt(enrollmentData[0]);
             int studentID = Integer.parseInt(enrollmentData[1]);
-            String studentName = enrollmentData[2];
-            int studentAge = Integer.parseInt(enrollmentData[3]);
-            String subjectName = enrollmentData[4];
-            String subjectID = enrollmentData[5];
-            String teacherName = enrollmentData[6];
+            String subjectID = enrollmentData[2];
+
 
             Student selectedStudent = null;
             Subject selectedSubject = null;
@@ -128,14 +121,47 @@ public class SchoolFileManager {
             }
 
             if(selectedStudent != null && selectedSubject != null) {
+                enrollment.add(new Enrollment(enrollmentID, selectedStudent, selectedSubject));
             }
         }
         load.close();
     }
-    void saveGrades() {
-
+    void saveGrades(ArrayList<Grade> grade) throws IOException {
+        BufferedWriter save = new BufferedWriter(new FileWriter("Grade.csv"));
+        for(Grade grades : grade) {
+            save.write(grades.getEnrollment().getStudent().getStudentID()
+            + "," + grades.getEnrollment().getSubject().getSubjectCode()
+            + "," + grades.getStudentGrade());
+            save.newLine();
+        }
+        save.close();
     }
-    void loadGrades() {
+    void loadGrades(ArrayList<Grade> grade, ArrayList<Enrollment> enrollment) throws IOException {
+        BufferedReader load = new BufferedReader(new FileReader("Grade.csv"));
+        String line;
 
+        while((line = load.readLine()) != null) {
+            String [] gradeData = line.split(",");
+
+            int studentID = Integer.parseInt(gradeData[0]);
+            String subjectCode = gradeData[1];
+            double studentGrade = Double.parseDouble(gradeData[2]);
+
+
+            Enrollment selectedEnrollment = null;
+
+            for(Enrollment enrollments : enrollment) {
+                if(enrollments.getStudent().getStudentID() == studentID
+                && enrollments.getSubject().getSubjectCode().equals(subjectCode)) {
+                    selectedEnrollment = enrollments;
+                    break;
+                }
+            }
+
+            if(selectedEnrollment != null) {
+                grade.add(new Grade(selectedEnrollment, studentGrade));
+            }
+        }
+        load.close();
     }
 }

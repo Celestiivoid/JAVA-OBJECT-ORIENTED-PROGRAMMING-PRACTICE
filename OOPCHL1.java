@@ -13,6 +13,7 @@ class Pets { // The class
 
 public class OOPCHL1 {
     public static void main(String[] args) {
+        System.out.println("hello world!");
 
     }
 }

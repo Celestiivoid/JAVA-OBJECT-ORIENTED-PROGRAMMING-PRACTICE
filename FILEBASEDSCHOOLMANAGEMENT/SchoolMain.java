@@ -12,9 +12,9 @@ public class SchoolMain {
             System.out.println("[1] Student Management");
             System.out.println("[2] Teacher Management");
             System.out.println("[3] Subject Management");
-            System.out.println("[4] Enrollment");
+            System.out.println("[4] Enrollment Management");
             System.out.println("[5] Grade Management");
-            System.out.println("[6] View Reports");
+            System.out.println("[6] View Student Reports");
             System.out.println("----------------------------------");
             System.out.println("[7] Save Data");
             System.out.println("[8] Load Data");
